@@ -1,5 +1,8 @@
 package de.muc.jtm.frog_jump_count;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.DecimalFormat;
@@ -9,8 +12,9 @@ import java.util.Locale;
 
 public class FrogJumpCountCalculator {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
     int max = 10_000;
+    FileWriter fw = new FileWriter(new File("logs/frogJumpCound.log"));
 
     Fraction sum = Fraction.ZERO;
     Fraction preStepValue = Fraction.ZERO;
@@ -22,9 +26,15 @@ public class FrogJumpCountCalculator {
 
       sum = sum.add(stepValue);
 
-      System.out.printf("N: %5d -> %3.5f -> %1.6f \t %s\n", n, stepValue.doubleValue(),
+      String logLine = String.format("N: %5d -> %3.5f -> %1.6f \t %s\n", n, stepValue.doubleValue(),
           stepDifference.doubleValue(), stepValue.toString());
+
+      System.out.print(logLine);
+      fw.append(logLine);
     }
+
+    fw.flush();
+    fw.close();
   }
 
 
